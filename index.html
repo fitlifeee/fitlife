@@ -1,0 +1,486 @@
+<!DOCTYPE html><html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FitLife Marmitas Fit</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div id="toast-container"></div>
+
+<div id="cancelModal" class="custom-modal">
+    <div class="modal-content">
+        <h3><i class="fa-solid fa-triangle-exclamation"></i> Cancelar Pedido</h3>
+        <p>Por favor, informe abaixo o motivo do cancelamento deste pedido:</p>
+        <textarea id="modalReasonInput" placeholder="Ex: Digitei o endereço errado / Desisti da compra..."></textarea>
+        <div class="modal-actions">
+            <button class="btn-secondary" onclick="closeCancelModal()">Voltar</button>
+            <button class="btn-danger" onclick="confirmModalCancellation()">Confirmar Cancelamento</button>
+        </div>
+    </div>
+</div>
+
+<header>
+    <div class="topbar">
+        <div class="logo">fit<span>life</span></div>
+        <nav>
+            <button data-target="menu"><i class="fa-solid fa-utensils"></i> Cardápio</button>
+            <button data-target="custom"><i class="fa-solid fa-blender"></i> Personalizar</button>
+            <button data-target="sweets-tab"><i class="fa-solid fa-ice-cream"></i> Doces Fit</button>
+            <button data-target="drinks-tab"><i class="fa-solid fa-glass-water"></i> Bebidas</button>
+            <button data-target="orders"><i class="fa-solid fa-clock-rotate-left"></i> Pedidos</button>
+            <button data-target="cancelled-tab"><i class="fa-solid fa-rectangle-xmark"></i> Cancelados</button>
+            <button data-target="cart"><i class="fa-solid fa-basket-shopping"></i> Carrinho</button>
+            <button data-target="checkout"><i class="fa-solid fa-credit-card"></i> Finalizar</button>
+            <button data-target="admin"><i class="fa-solid fa-user-gear"></i> Administrador</button>
+        </nav>
+    </div>
+    
+    <div class="hero">
+        <div class="hero-text">
+            <h1 id="hero-title">Cardápio <span>FitLife</span></h1>
+            <p id="hero-description">
+                Refeições balanceadas, saborosas e preparadas com ingredientes frescos para te ajudar a alcançar seus objetivos.
+            </p>
+        </div>
+        <img id="hero-image" src="https://images.unsplash.com/photo-1547592180-85f173990554?q=80&w=1200&auto=format&fit=crop" alt="Marmita Fit">
+    </div>
+</header>
+
+<main>
+    <section id="menu" class="section active">
+        <div class="filters">
+            <button class="filter-btn active-filter" data-filter="all"><i class="fa-solid fa-border-all"></i> Todos</button>
+            <button class="filter-btn" data-filter="emagrecimento"><i class="fa-solid fa-arrow-down-wide-short"></i> Emagrecimento</button>
+            <button class="filter-btn" data-filter="massa"><i class="fa-solid fa-dumbbell"></i> Ganho de Massa</button>
+            <button class="filter-btn" data-filter="lowcarb"><i class="fa-solid fa-seedling"></i> Low Carb</button>
+            <button class="filter-btn" data-filter="vegetariano"><i class="fa-solid fa-carrot"></i> Vegetariano</button>
+            <button class="filter-btn" data-filter="doces"><i class="fa-solid fa-cookie-bite"></i> Doces Fit</button>
+        </div>
+        
+        <div class="grid">
+            <div class="card" data-category="emagrecimento lowcarb">
+                <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?q=80&w=1200&auto=format&fit=crop">
+                <div class="card-content">
+                    <div class="tag">MAIS PEDIDO</div>
+                    <h3>Frango Grelhado</h3>
+                    <p>Frango grelhado com arroz integral, legumes e brócolis.</p>
+                    <div class="info">
+                        <span>35g proteína</span>
+                        <span>40g carbo</span>
+                        <span>420 kcal</span>
+                    </div>
+                    <div class="price-row" data-product="Frango Grelhado">
+                        <div class="price">R$ 23,90</div>
+                        <button class="action" onclick="addToCart('Frango Grelhado', 23.90)"><i class="fa-solid fa-cart-plus"></i> Adicionar</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card" data-category="lowcarb emagrecimento">
+                <img src="https://images.unsplash.com/photo-1544025162-d76694265947?q=80&w=1200&auto=format&fit=crop">
+                <div class="card-content">
+                    <div class="tag">LOW CARB</div>
+                    <h3>Carne Fit</h3>
+                    <p>Carne magra grelhada com purê de batata doce.</p>
+                    <div class="info">
+                        <span>32g proteína</span>
+                        <span>28g carbo</span>
+                        <span>380 kcal</span>
+                    </div>
+                    <div class="price-row" data-product="Carne Fit">
+                        <div class="price">R$ 24,90</div>
+                        <button class="action" onclick="addToCart('Carne Fit', 24.90)"><i class="fa-solid fa-cart-plus"></i> Adicionar</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card" data-category="vegetariano emagrecimento">
+                <img src="https://images.unsplash.com/photo-1511690743698-d9d85f2fbf38?q=80&w=1200&auto=format&fit=crop">
+                <div class="card-content">
+                    <div class="tag">VEGETARIANO</div>
+                    <h3>Hambúrguer de Grão de Bico</h3>
+                    <p>Hambúrguer vegetariano com quinoa e salada.</p>
+                    <div class="info">
+                        <span>20g proteína</span>
+                        <span>45g carbo</span>
+                        <span>410 kcal</span>
+                    </div>
+                    <div class="price-row" data-product="Hambúrguer de Grão de Bico">
+                        <div class="price">R$ 21,90</div>
+                        <button class="action" onclick="addToCart('Hambúrguer de Grão de Bico', 21.90)"><i class="fa-solid fa-cart-plus"></i> Adicionar</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card" data-category="massa">
+                <img src="https://images.unsplash.com/photo-1604908176997-125f25cc6f3d?q=80&w=1200&auto=format&fit=crop">
+                <div class="card-content">
+                    <div class="tag">GANHO DE MASSA</div>
+                    <h3>Frango com Macarrão</h3>
+                    <p>Macarrão integral com frango grelhado e legumes.</p>
+                    <div class="info">
+                        <span>40g proteína</span>
+                        <span>55g carbo</span>
+                        <span>520 kcal</span>
+                    </div>
+                    <div class="price-row" data-product="Frango com Macarrão">
+                        <div class="price">R$ 25,90</div>
+                        <button class="action" onclick="addToCart('Frango com Macarrão', 25.90)"><i class="fa-solid fa-cart-plus"></i> Adicionar</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card" data-category="lowcarb emagrecimento">
+                <img src="https://images.unsplash.com/photo-1512058564366-18510be2db19?q=80&w=1200&auto=format&fit=crop">
+                <div class="card-content">
+                    <div class="tag">LOW CARB</div>
+                    <h3>Omelete Fit</h3>
+                    <p>Omelete de claras com legumes frescos.</p>
+                    <div class="info">
+                        <span>28g proteína</span>
+                        <span>10g carbo</span>
+                        <span>250 kcal</span>
+                    </div>
+                    <div class="price-row" data-product="Omelete Fit">
+                        <div class="price">R$ 19,90</div>
+                        <button class="action" onclick="addToCart('Omelete Fit', 19.90)"><i class="fa-solid fa-cart-plus"></i> Adicionar</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card" data-category="massa">
+                <img src="https://images.unsplash.com/photo-1563805042-7684c019e1cb?q=80&w=1200&auto=format&fit=crop">
+                <div class="card-content">
+                    <div class="tag">LANCHE</div>
+                    <h3>Panqueca de Aveia</h3>
+                    <p>Panqueca proteica com cacau e frutas.</p>
+                    <div class="info">
+                        <span>15g proteína</span>
+                        <span>30g carbo</span>
+                        <span>280 kcal</span>
+                    </div>
+                    <div class="price-row" data-product="Panqueca de Aveia">
+                        <div class="price">R$ 16,90</div>
+                        <button class="action" onclick="addToCart('Panqueca de Aveia', 16.90)"><i class="fa-solid fa-cart-plus"></i> Adicionar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="custom" class="section">
+        <div class="custom-box">
+            <h2><i class="fa-solid fa-blender" style="color: #6eb63d;"></i> Chef Express: Monte sua Marmita</h2>
+            <p style="color: #666;">Escolha um ingrediente de cada grupo para criar a sua combinação perfeita e saudável.</p>
+            
+            <div class="custom-step-title"><span>1</span> Escolha a sua Proteína</div>
+            <div class="custom-options-grid" id="protein-group">
+                <div class="custom-card-option" onclick="selectCustomIngredient('protein', 'Frango Grelhado', this)">
+                    <i class="fa-solid fa-drumstick-bite"></i>
+                    <span>Frango Grelhado</span>
+                </div>
+                <div class="custom-card-option" onclick="selectCustomIngredient('protein', 'Carne Magra Grelhada', this)">
+                    <i class="fa-solid fa-bacon"></i>
+                    <span>Carne Magra</span>
+                </div>
+                <div class="custom-card-option" onclick="selectCustomIngredient('protein', 'Hambúrguer de Grão de Bico', this)">
+                    <i class="fa-solid fa-seedling"></i>
+                    <span>Hamb. Grão de Bico</span>
+                </div>
+                <div class="custom-card-option" onclick="selectCustomIngredient('protein', 'Omelete de Claras', this)">
+                    <i class="fa-solid fa-egg"></i>
+                    <span>Omelete de Claras</span>
+                </div>
+            </div>
+
+            <div class="custom-step-title"><span>2</span> Escolha o Carboidrato</div>
+            <div class="custom-options-grid" id="carbo-group">
+                <div class="custom-card-option" onclick="selectCustomIngredient('carbo', 'Arroz Integral', this)">
+                    <i class="fa-solid fa-bowl-rice"></i>
+                    <span>Arroz Integral</span>
+                </div>
+                <div class="custom-card-option" onclick="selectCustomIngredient('carbo', 'Purê de Batata Doce', this)">
+                    <i class="fa-solid fa-stroopwafel"></i>
+                    <span>Purê de Batata Doce</span>
+                </div>
+                <div class="custom-card-option" onclick="selectCustomIngredient('carbo', 'Macarrão Integral', this)">
+                    <i class="fa-solid fa-bowl-food"></i>
+                    <span>Macarrão Integral</span>
+                </div>
+            </div>
+
+            <div class="custom-step-title"><span>3</span> Escolha o Acompanhamento</div>
+            <div class="custom-options-grid" id="acomp-group">
+                <div class="custom-card-option" onclick="selectCustomIngredient('acomp', 'Brócolis', this)">
+                    <i class="fa-solid fa-tree"></i>
+                    <span>Brócolis no Vapor</span>
+                </div>
+                <div class="custom-card-option" onclick="selectCustomIngredient('acomp', 'Legumes Frescos', this)">
+                    <i class="fa-solid fa-carrot"></i>
+                    <span>Legumes Variados</span>
+                </div>
+                <div class="custom-card-option" onclick="selectCustomIngredient('acomp', 'Salada da Casa', this)">
+                    <i class="fa-solid fa-leaf"></i>
+                    <span>Salada Verde</span>
+                </div>
+            </div>
+
+            <div class="custom-sticky-footer">
+                <div class="custom-summary-text">
+                    <i class="fa-solid fa-wand-magic-sparkles" style="color:#6eb63d;"></i> Sua escolha: 
+                    <span id="custom-summary-details" style="font-weight:600; color:#0b3d2e;">Selecione os itens acima...</span>
+                </div>
+                <button class="action" onclick="addCustomMealToCart()">
+                    <i class="fa-solid fa-basket-shopping"></i> Adicionar Combinação (R$ 26,00)
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <section id="sweets-tab" class="section">
+        <div class="sweets-box">
+            <h2><i class="fa-solid fa-ice-cream"></i> Sobremesas e Doces Fit</h2>
+            <p style="color: #666; margin-bottom: 20px;">Mate a sua vontade de doce sem sair da dieta. Opções saudáveis e proteicas!</p>
+            <div class="grid">
+                <div class="card" data-category="doces emagrecimento">
+                    <img src="https://images.unsplash.com/photo-1541783245831-57d6fb0926d3?q=80&w=1200&auto=format&fit=crop">
+                    <div class="card-content">
+                        <div class="tag">DOCE FIT</div>
+                        <h3>Mousse de Chocolate Fit</h3>
+                        <p>Mousse cremoso de chocolate 70% cacau com base de abacate e whey protein.</p>
+                        <div class="info">
+                            <span>12g proteína</span>
+                            <span>8g carbo</span>
+                            <span>180 kcal</span>
+                        </div>
+                        <div class="price-row" data-product="Mousse de Chocolate Fit">
+                            <div class="price">R$ 12,90</div>
+                            <button class="action" onclick="addToCart('Mousse de Chocolate Fit', 12.90)"><i class="fa-solid fa-cart-plus"></i> Adicionar</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="card" data-category="doces lowcarb">
+                    <img src="https://images.unsplash.com/photo-1508737027454-e6454ef45afd?q=80&w=1200&auto=format&fit=crop">
+                    <div class="card-content">
+                        <div class="tag">SEM AÇÚCAR</div>
+                        <h3>Cheesecake de Frutas Vermelhas</h3>
+                        <p>Cheesecake leve com calda artesanal de morango e amora, adoçado com xilitol.</p>
+                        <div class="info">
+                            <span>8g proteína</span>
+                            <span>12g carbo</span>
+                            <span>195 kcal</span>
+                        </div>
+                        <div class="price-row" data-product="Cheesecake de Frutas Vermelhas">
+                            <div class="price">R$ 14,90</div>
+                            <button class="action" onclick="addToCart('Cheesecake de Frutas Vermelhas', 14.90)"><i class="fa-solid fa-cart-plus"></i> Adicionar</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="card" data-category="doces">
+                    <img src="https://images.unsplash.com/photo-1551024601-bec78aea704b?q=80&w=1200&auto=format&fit=crop">
+                    <div class="card-content">
+                        <div class="tag">PROTEICO</div>
+                        <h3>Brownie de Whey</h3>
+                        <p>Brownie macio feito com farinha de amêndoas e whey protein de baunilha.</p>
+                        <div class="info">
+                            <span>15g proteína</span>
+                            <span>14g carbo</span>
+                            <span>210 kcal</span>
+                        </div>
+                        <div class="price-row" data-product="Brownie de Whey">
+                            <div class="price">R$ 11,50</div>
+                            <button class="action" onclick="addToCart('Brownie de Whey', 11.50)"><i class="fa-solid fa-cart-plus"></i> Adicionar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="drinks-tab" class="section">
+        <div class="sweets-box">
+            <h2><i class="fa-solid fa-glass-water" style="color:#6eb63d;"></i> Bebidas Naturais e Funcionais</h2>
+            <p style="color: #666; margin-bottom: 20px;">Opções saudáveis e refrescantes sem adição de açúcares artificiais.</p>
+            <div class="grid">
+                <div class="card" data-category="bebidas">
+                    <img src="https://images.unsplash.com/photo-1621506289937-a8e4df240d0b?q=80&w=1200&auto=format&fit=crop">
+                    <div class="card-content">
+                        <div class="tag">100% NATURAL</div>
+                        <h3>Suco Verde Detox</h3>
+                        <p>Suco prensado a frio de couve, abacaxi, hortelã, gengibre e maçã.</p>
+                        <div class="info"><span>540ml</span><span>Sem Açúcar</span></div>
+                        <div class="price-row" data-product="Suco Verde Detox">
+                            <div class="price">R$ 8,90</div>
+                            <button class="action" onclick="addToCart('Suco Verde Detox', 8.90)"><i class="fa-solid fa-cart-plus"></i> Adicionar</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="card" data-category="bebidas">
+                    <img src="https://images.unsplash.com/photo-1556881286-fc6915169721?q=80&w=1200&auto=format&fit=crop">
+                    <div class="card-content">
+                        <div class="tag">TERMOGÊNICO</div>
+                        <h3>Chá Hibisco com Limão</h3>
+                        <p>Infusão gelada de hibisco com rodelas de limão siciliano e hortelã.</p>
+                        <div class="info"><span>400ml</span><span>Zero Carbo</span></div>
+                        <div class="price-row" data-product="Chá Hibisco com Limão">
+                            <div class="price">R$ 6,50</div>
+                            <button class="action" onclick="addToCart('Chá Hibisco com Limão', 6.50)"><i class="fa-solid fa-cart-plus"></i> Adicionar</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="card" data-category="bebidas">
+                    <img src="https://images.unsplash.com/photo-1548848221-0c2e497ed557?q=80&w=1200&auto=format&fit=crop">
+                    <div class="card-content">
+                        <div class="tag">REFRESCANTE</div>
+                        <h3>Água de Coco Integral</h3>
+                        <p>Água de coco pura, rica em potássio, perfeita para hidratação.</p>
+                        <div class="info"><span>400ml</span><span>Isotônico Natural</span></div>
+                        <div class="price-row" data-product="Água de Coco Integral">
+                            <div class="price">R$ 7,90</div>
+                            <button class="action" onclick="addToCart('Água de Coco Integral', 7.90)"><i class="fa-solid fa-cart-plus"></i> Adicionar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="cart" class="section">
+        <div class="cart-box">
+            <h2><i class="fa-solid fa-basket-shopping"></i> Seu Carrinho</h2>
+            <ul id="cartList"></ul>
+            <div class="cart-total-display" id="cartTotalContainer">Total do Carrinho: R$ 0,00</div>
+        </div>
+    </section>
+
+    <section id="orders" class="section">
+        <div class="orders-box">
+            <h2><i class="fa-solid fa-clock-rotate-left"></i> Pedidos em andamento</h2>
+            <ul id="orderList"></ul>
+        </div>
+    </section>
+
+    <section id="cancelled-tab" class="section">
+        <div class="cancelled-box">
+            <h2><i class="fa-solid fa-rectangle-xmark" style="color: #c53030;"></i> Pedidos Cancelados</h2>
+            <p style="color: #666; margin-bottom: 20px;">Abaixo estão as suas solicitações de cancelamento enviadas para análise.</p>
+            <div id="cancelledOrderList"></div>
+        </div>
+    </section>
+
+    <section id="checkout" class="section">
+        <div class="checkout-box">
+            <h2><i class="fa-solid fa-credit-card"></i> Finalizar Compra</h2>
+            <br>
+            <div class="checkout-total-banner">
+                <span>Valor Total a Pagar:</span>
+                <span id="checkoutTotalValue">R$ 0,00</span>
+            </div>
+            
+            <label>Nome</label>
+            <input type="text" id="name" placeholder="Seu nome completo">
+            <label>CEP</label>
+            <input type="text" id="cep" placeholder="00000-000">
+            <label>Endereço</label>
+            <input type="text" id="address" placeholder="Rua, Número e Bairro">
+            <label>Complemento (Opcional)</label>
+            <input type="text" id="complement" placeholder="Apto, Bloco, Casa, etc.">
+            
+            <label>Forma de Pagamento</label>
+            <select id="payment-method" onchange="toggleChangeField()">
+                <option value="cartao">Cartão de Crédito / Débito</option>
+                <option value="dinheiro">Dinheiro</option>
+                <option value="pix">Pix</option>
+            </select>
+            
+            <div id="change-wrapper">
+                <label>Precisa de troco para quanto?</label>
+                <input type="number" id="cash-change" placeholder="Ex: 50">
+            </div>
+            
+            <button class="action" style="width:100%; justify-content:center; font-size:16px;" onclick="placeOrder()">
+                <i class="fa-solid fa-truck-ramp-box"></i> Enviar Pedido para o WhatsApp
+            </button>
+        </div>
+    </section>
+
+    <section id="admin" class="section">
+        <div class="orders-box">
+            <h2><i class="fa-solid fa-user-gear"></i> Painel Administrativo</h2>
+            <p style="color:#666; margin-bottom: 20px;">Gerencie banners, cabeçalhos e injete novos ingredientes customizados em tempo de execução.</p>
+            
+            <div class="admin-tabs">
+                <button class="admin-tab-btn active-admin-tab" onclick="switchAdminTab('hero-panel', this)">Design do Site</button>
+                <button class="admin-tab-btn" onclick="switchAdminTab('ingredients-panel', this)">Injetor de Ingredientes</button>
+                <button class="admin-tab-btn" onclick="switchAdminTab('code-panel', this)">Exportar Código HTML</button>
+            </div>
+
+            <div id="hero-panel" class="admin-section active">
+                <div class="admin-flex-row">
+                    <div>
+                        <label>Título do Cabeçalho</label>
+                        <input type="text" id="adminHeroTitle" placeholder="Ex: Cardápio FitLife">
+                    </div>
+                </div>
+                <div class="admin-flex-row">
+                    <div>
+                        <label>Descrição de Subtítulo</label>
+                        <input type="text" id="adminHeroDesc" placeholder="Refeições balanceadas e saborosas...">
+                    </div>
+                </div>
+                <label>URL da Imagem de Banner</label>
+                <div class="upload-wrapper">
+                    <input type="text" id="adminHeroImg" placeholder="https://images.unsplash.com/...">
+                    <button class="file-upload-btn" onclick="document.getElementById('fileHero').click()">
+                        <i class="fa-solid fa-upload"></i> Upload Local
+                    </button>
+                    <input type="file" id="fileHero" style="display:none;" accept="image/*" onchange="handleAdminImageUpload(this, 'adminHeroImg')">
+                </div>
+                <button class="action" onclick="updateHeroSettings()"><i class="fa-solid fa-floppy-disk"></i> Salvar Alterações de Design</button>
+            </div>
+
+            <div id="ingredients-panel" class="admin-section">
+                <div class="admin-flex-row">
+                    <div>
+                        <label>Nome do Ingrediente</label>
+                        <input type="text" id="adminIngName" placeholder="Ex: Patinho Moído">
+                    </div>
+                    <div>
+                        <label>Classe do Ícone FontAwesome</label>
+                        <input type="text" id="adminIngIcon" placeholder="Ex: fa-solid fa-bacon">
+                    </div>
+                </div>
+                <label>Grupo / Passo de Injeção</label>
+                <select id="adminIngGroup">
+                    <option value="protein-group">Passo 1 - Proteínas</option>
+                    <option value="carbo-group">Passo 2 - Carboidratos</option>
+                    <option value="acomp-group">Passo 3 - Acompanhamentos</option>
+                </select>
+                <br><br>
+                <button class="action" onclick="injectCustomIngredient()"><i class="fa-solid fa-plus"></i> Injetar Ingrediente no Construtor</button>
+            </div>
+
+            <div id="code-panel" class="admin-section">
+                <label>Código-Fonte Sincronizado do DOM Completo (Pronto para salvamento permanente)</label>
+                <textarea id="htmlOutput" style="width:100%; height:250px; font-family:monospace; font-size:12px; padding:10px; margin-top:10px; border-radius:10px; border:1px solid #ccc; resize:vertical;"></textarea>
+                <div class="admin-action-row">
+                    <button class="action" onclick="generateHTML()"><i class="fa-solid fa-arrows-rotate"></i> Atualizar Código Capturado</button>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<footer>
+    <p>&copy; 2026 FitLife Marmitas Fit - Alimentação Saudável e Prática.</p>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
+
